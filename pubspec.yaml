@@ -38,9 +38,6 @@ dependencies:
   logger: ^2.2.0
   get: ^4.6.6
   dio: ^5.4.2+1
-  custom_navigation_bar:
-    git:
-      url: https://github.com/TopAlien/custom_bubble_navigation_bar
 
 dev_dependencies:
   flutter_test:

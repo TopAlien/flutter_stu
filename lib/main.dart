@@ -1,14 +1,17 @@
-import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_card/counter.dart';
-import 'package:flutter_card/entry/card_list_entity.dart';
-import 'package:flutter_card/entry/post_entity.dart';
-import 'package:flutter_card/http/dio_util.dart';
-import 'package:flutter_card/r.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_card/routes/index.dart';
 import 'package:get/get.dart';
 
-void main() {
+void initSystem() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
+  );
+}
+
+void main() {
+  initSystem();
 
   runApp(const MyApp());
 }
@@ -23,153 +26,54 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        // primaryColor: ColorUtil.PRIMARY_THEME,
+        brightness: Brightness.light,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page123'),
+      unknownRoute: GetPageConfig.unknownRoute,
+      getPages: GetPageConfig.pages,
+      home: BottomNavigationWidget(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+class BottomNavigationWidget extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<StatefulWidget> createState() => BottomNavigationWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final controller = Get.put(CounterController());
-  List<CardListEntity> cardList = [];
-
-  void getHttp() async {
-    cardList = await DioUtil().request<List<CardListEntity>>('/list/card');
-  }
-
-  void getPost() async {
-    final post = await DioUtil().request<PostEntity>('/error-data/mock');
-  }
+class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
+  int _currentIndex = 0;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-
-    getHttp();
-
-    getPost();
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(), // 禁用左右滑动
+        controller: _pageController,
+        children: BottomNavigationConfig.tabPages,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text("${cardList[index].name}"),
-                  );
-                },
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: cardList.length,
-              ),
-              InkWell(
-                child: const Text('asd'),
-                onTap: () {},
-              ),
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Obx(
-                () => Text(
-                  '${controller.counter.value}',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-              ),
-              DecoratedBox(
-                decoration: ShapeDecoration(
-                  shape: const CircleBorder(
-                    side: BorderSide(
-                      width: 5,
-                      color: Colors.blue,
-                    ),
-                  ),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      R.assetsImagesAvatar,
-                    ),
-                  ),
-                ),
-                child: const SizedBox(width: 100, height: 100),
-              ),
-              const DecoratedBox(
-                decoration: UnderlineTabIndicator(
-                  insets: EdgeInsets.symmetric(horizontal: 5, vertical: -5),
-                  borderSide: BorderSide(color: Colors.orange, width: 2),
-                ),
-                child: Icon(Icons.ac_unit, color: Colors.blue, size: 40),
-              ),
-            ],
-          ),
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: BottomNavigationConfig.tabItems,
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+            _pageController.jumpToPage(_currentIndex);
+          });
+        },
+        fixedColor: const Color.fromRGBO(234, 214, 77, 1.0),
+        type: BottomNavigationBarType.fixed,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: controller.add,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-      bottomNavigationBar: const BottomBar(),
-    );
-  }
-}
-
-class BottomBar extends StatefulWidget {
-  const BottomBar({
-    super.key,
-  });
-
-  @override
-  State<BottomBar> createState() => _BottomBarState();
-}
-
-class _BottomBarState extends State<BottomBar> {
-  int tabIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomNavigationBar(
-      selectedColor: const Color(0xff0c18fb),
-      strokeColor: const Color(0x300c18fb),
-      unSelectedColor: Colors.grey[600],
-      backgroundColor: Colors.white,
-      borderRadius: const Radius.circular(20.0),
-      items: [
-        CustomNavigationBarItem(icon: const Icon(Icons.home)),
-        CustomNavigationBarItem(icon: const Icon(Icons.shop)),
-        CustomNavigationBarItem(icon: const Icon(Icons.access_alarms)),
-        CustomNavigationBarItem(icon: const Icon(Icons.search)),
-        CustomNavigationBarItem(
-          icon: const Icon(Icons.portable_wifi_off_outlined),
-        )
-      ],
-      currentIndex: tabIndex,
-      onTap: (index) {
-        setState(() {
-          tabIndex = index;
-        });
-      },
-      isFloating: true,
     );
   }
 }
