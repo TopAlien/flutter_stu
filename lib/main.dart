@@ -58,7 +58,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        physics: const NeverScrollableScrollPhysics(), // 禁用左右滑动
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: BottomNavigationConfig.tabPages,
       ),

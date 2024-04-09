@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_card/entry/card_list_entity.dart';
+import 'package:flutter_card/http/api.dart';
 import 'package:flutter_card/http/dio_util.dart';
 import 'package:flutter_card/utils/log.dart';
 
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage>
   List<CardListEntity> list = [];
 
   void getCardList() async {
-    final res = await DioUtil().request<List<CardListEntity>>('/list/card');
+    final res = await DioUtil().request<List<CardListEntity>>(API.list_card);
 
     setState(() {
       list = res;
