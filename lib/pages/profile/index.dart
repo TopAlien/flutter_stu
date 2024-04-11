@@ -40,6 +40,26 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     super.build(context);
 
+    final children = [
+      Text("姓名：${userInfo.name}"),
+      Text("年龄：${userInfo.age}"),
+      ElevatedButton(
+        onPressed: () {
+          Get.toNamed(
+            GetPagePath.unknownRoute,
+            arguments: {"name": "ealien", "id": "209"},
+          );
+        },
+        child: const Text("go to unknow"),
+      ),
+      ElevatedButton(
+        onPressed: () {
+          Get.toNamed(GetPagePath.aboutRoute);
+        },
+        child: const Text("go to aboutRoute"),
+      )
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("我的"),
@@ -47,19 +67,7 @@ class _ProfilePageState extends State<ProfilePage>
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("姓名：${userInfo.name}"),
-            Text("年龄：${userInfo.age}"),
-            GestureDetector(
-              child: const Text("go to unknow"),
-              onTap: () {
-                Get.toNamed(
-                  GetPagePath.unknownRoute,
-                  arguments: {"name": "ealien", "id": "209"},
-                );
-              },
-            ),
-          ],
+          children: children,
         ),
       ),
     );
