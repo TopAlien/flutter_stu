@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // primaryColor: ColorUtil.PRIMARY_THEME,
         brightness: Brightness.light,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
@@ -34,12 +33,14 @@ class MyApp extends StatelessWidget {
       ),
       unknownRoute: GetPageConfig.unknownRoute,
       getPages: GetPageConfig.pages,
-      home: BottomNavigationWidget(),
+      home: const BottomNavigationWidget(),
     );
   }
 }
 
 class BottomNavigationWidget extends StatefulWidget {
+  const BottomNavigationWidget({super.key});
+
   @override
   State<StatefulWidget> createState() => BottomNavigationWidgetState();
 }
@@ -62,18 +63,22 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         controller: _pageController,
         children: BottomNavigationConfig.tabPages,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: BottomNavigationConfig.tabItems,
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-            _pageController.jumpToPage(_currentIndex);
-          });
-        },
-        fixedColor: const Color.fromRGBO(234, 214, 77, 1.0),
-        type: BottomNavigationBarType.fixed,
-      ),
+      bottomNavigationBar: buildBottomNavigationBar(),
+    );
+  }
+
+  BottomNavigationBar buildBottomNavigationBar() {
+    return BottomNavigationBar(
+      items: BottomNavigationConfig.tabItems,
+      currentIndex: _currentIndex,
+      onTap: (int index) {
+        setState(() {
+          _currentIndex = index;
+          _pageController.jumpToPage(_currentIndex);
+        });
+      },
+      fixedColor: const Color.fromRGBO(234, 214, 77, 1.0),
+      type: BottomNavigationBarType.fixed,
     );
   }
 }
