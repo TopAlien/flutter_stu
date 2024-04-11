@@ -6,11 +6,17 @@ import 'package:flutter_card/pages/unkonw/index.dart';
 import 'package:get/get.dart';
 
 abstract class GetPagePath {
+  /// 首页
   static String homeRoute = '/home';
 
+  /// 我的
   static String profileRoute = '/profile';
 
+  /// 关于我们
   static String aboutRoute = '/about';
+
+  /// 页面找不到
+  static String unknownRoute = "/notfound";
 }
 
 abstract class GetPageConfig {
@@ -24,7 +30,7 @@ abstract class GetPageConfig {
   ];
 
   static GetPage unknownRoute =
-      GetPage(name: '/notfound', page: () => const UnknownPage());
+      GetPage(name: GetPagePath.unknownRoute, page: () => const UnknownPage());
 }
 
 class BottomNavigationConfig {
