@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_card/pages/about/index.dart';
 import 'package:flutter_card/pages/home/index.dart';
 import 'package:flutter_card/pages/login/index.dart';
 import 'package:flutter_card/pages/profile/index.dart';
-import 'package:flutter_card/pages/about/index.dart';
 import 'package:flutter_card/pages/unkonw/index.dart';
-import 'package:flutter_card/routes/middleware/auth.dart';
+import 'package:flutter_card/router/middleware/auth.dart';
 import 'package:get/get.dart';
 
-abstract class GetPagePath {
+abstract class AppRoutes {
   /// 首页
   static String homeRoute = '/home';
 
@@ -27,28 +27,28 @@ abstract class GetPagePath {
 abstract class GetPageConfig {
   static List<GetPage> pages = [
     GetPage(
-      name: GetPagePath.homeRoute,
+      name: AppRoutes.homeRoute,
       page: () => const HomePage(),
     ),
     GetPage(
-      name: GetPagePath.profileRoute,
+      name: AppRoutes.profileRoute,
       page: () => const ProfilePage(),
       middlewares: [AuthMiddleWare()],
     ),
     GetPage(
-      name: GetPagePath.aboutRoute,
+      name: AppRoutes.aboutRoute,
       page: () => const AboutPage(),
       transition: Transition.zoom,
       middlewares: [AuthMiddleWare()],
     ),
     GetPage(
-      name: GetPagePath.loginRoute,
+      name: AppRoutes.loginRoute,
       page: () => const LoginPage(),
     )
   ];
 
   static GetPage unknownRoute = GetPage(
-    name: GetPagePath.unknownRoute,
+    name: AppRoutes.unknownRoute,
     page: () => const UnknownPage(),
   );
 }

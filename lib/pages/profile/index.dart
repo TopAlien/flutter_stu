@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_card/entry/user_entity.dart';
 import 'package:flutter_card/http/api.dart';
 import 'package:flutter_card/http/dio_util.dart';
-import 'package:flutter_card/routes/index.dart';
+import 'package:flutter_card/router/index.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -46,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage>
       ElevatedButton(
         onPressed: () {
           Get.toNamed(
-            GetPagePath.unknownRoute,
+            AppRoutes.unknownRoute,
             arguments: {"name": "ealien", "id": "209"},
           );
         },
@@ -54,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage>
       ),
       ElevatedButton(
         onPressed: () {
-          Get.toNamed(GetPagePath.aboutRoute);
+          Get.toNamed(AppRoutes.aboutRoute);
         },
         child: const Text("go to aboutRoute"),
       )

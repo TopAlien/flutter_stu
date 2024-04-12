@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_card/routes/index.dart';
+import 'package:flutter_card/router/index.dart';
 import 'package:get/get.dart';
 
 void initSystem() {

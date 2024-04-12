@@ -40,6 +40,7 @@ dependencies:
   dio: ^5.4.2+1
   card_swiper: ^3.0.1
   auto_animated: ^3.2.0
+  sqflite: ^2.3.3
 
 dev_dependencies:
   flutter_test:
