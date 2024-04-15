@@ -9,6 +9,14 @@ import 'package:go_router/go_router.dart';
 
 enum AppRoutes { home, about, profile, unknown, login }
 
+/// 完善路径字符串
+///
+/// @param path 原始路径字符串
+/// @return 返回添加了根路径符号后的绝对路径字符串
+String completePath(String path) {
+  return '/$path';
+}
+
 final GoRouter router = GoRouter(
   initialLocation: '/',
   routes: [
@@ -44,12 +52,24 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: AppRoutes.unknown.name,
           name: 'unknown',
-          builder: (BuildContext context, GoRouterState state) =>
-              const UnknownPage(),
+          builder: (BuildContext context, GoRouterState state) {
+            return const UnknownPage(
+              id: '123',
+              name: 'ealien',
+            );
+          },
         ),
       ],
     ),
   ],
+  redirect: (BuildContext context, GoRouterState state) {
+    /// 自定义规则，例子：登录状态无token跳转到登录页
+    // if (state.fullPath == completePath(AppRoutes.unknown.name)) {
+    //   return completePath(AppRoutes.home.name);
+    // }
+
+    return null;
+  },
 );
 
 class BottomNavigationConfig {
