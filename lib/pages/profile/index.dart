@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_card/entry/user_entity.dart';
 import 'package:flutter_card/http/api.dart';
 import 'package:flutter_card/http/dio_util.dart';
-import 'package:flutter_card/router/index.dart';
-import 'package:get/get.dart';
+import 'package:flutter_card/router/go_router.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -45,16 +45,13 @@ class _ProfilePageState extends State<ProfilePage>
       Text("年龄：${userInfo.age}"),
       ElevatedButton(
         onPressed: () {
-          Get.toNamed(
-            AppRoutes.unknownRoute,
-            arguments: {"name": "ealien", "id": "209"},
-          );
+          context.goNamed(AppRoutes.unknown.name);
         },
         child: const Text("go to unknow"),
       ),
       ElevatedButton(
         onPressed: () {
-          Get.toNamed(AppRoutes.aboutRoute);
+          context.goNamed(AppRoutes.about.name);
         },
         child: const Text("go to aboutRoute"),
       )
